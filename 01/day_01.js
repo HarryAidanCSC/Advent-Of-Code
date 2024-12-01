@@ -23,3 +23,22 @@ for(let i = 0; i < rhs.length; i++){
     p1 += Math.abs(lhs[i] - rhs[i])
 }
 console.log(p1)
+
+// Part Two
+let dict = {}
+for (let o of lhs){
+    if (dict[o]){
+        dict[o]++;
+    } else {
+    dict[o] = 1
+}
+}
+
+let p2 = 0
+
+for (let o of rhs){
+    if (dict[o]){
+        p2 += dict[o] * o
+    }
+}
+console.log(p2)
