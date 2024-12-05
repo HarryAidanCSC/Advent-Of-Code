@@ -1,7 +1,7 @@
 from pathlib import Path
 from functools import cmp_to_key
 
-with open(Path(_file_).parent / 'input.txt', 'r') as file:
+with open(Path(__file__).parent / 'input.txt', 'r') as file:
     rules, lines = [], []
 
     for line in file:
@@ -34,7 +34,7 @@ print(p1)
 p2 = 0
 
 for line in incorrect_lines:
-    sorted_line = sorted(line, key=cmp_to_key(lambda x, y: (x + y in rules)))
+    sorted_line = sorted(line, key=cmp_to_key(lambda x, y: -(x + '|' + y in rules)))
     p2 += int(sorted_line[len(sorted_line) // 2])
 
 print(p2)
