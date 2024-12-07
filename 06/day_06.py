@@ -1,9 +1,8 @@
-# Just a merry 88592ms solution
+# Just a merry 13347ms solution
 from pathlib import Path
 
 with open(Path(__file__).parent / 'input.txt', 'r') as file:
     lines = [line.strip() for line in file]
-
 
 hashmap = dict()
 for i, line in enumerate(lines):
@@ -33,33 +32,30 @@ print(len(visited))
 
 ## Part Two
 p2 = 0
-for i, line in enumerate(lines):
-    for j, val in enumerate(line):
-        value_store = hashmap[(i,j)]
-        if value_store != ".": continue
-        hashmap[(i,j)] = "#"
+for i, j in visited:
+    hashmap[(i,j)] = "#"
+    
+    visited_velo = set()
+    dir_index = 0
+    d = dir[dir_index]
+    current = start
+    while True:
+        if current + d in visited_velo:
+            p2 += 1
+            break
         
-        visited_velo = set()
-        dir_index = 0
-        d = dir[dir_index]
-        current = start
-        while True:
-            if current + d in visited_velo:
-                p2 += 1
-                break
-            
-            next = tuple(a + b for a,b in zip(current, d))
-            value = hashmap.get(next)    
-            
-            if value == "." or value == "^":
-                visited_velo.add(current + d)
-                current = next
-            elif value :
-                dir_index = (dir_index + 1) % len(dir)
-                d = dir[dir_index]
-            else:
-                break
-            
-        hashmap[(i,j)] = value_store
+        next = tuple(a + b for a,b in zip(current, d))
+        value = hashmap.get(next)    
+        
+        if value == "." or value == "^":
+            visited_velo.add(current + d)
+            current = next
+        elif value :
+            dir_index = (dir_index + 1) % len(dir)
+            d = dir[dir_index]
+        else:
+            break
+        
+    hashmap[(i,j)] = "."
 
 print(p2)
