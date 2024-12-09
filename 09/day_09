@@ -1,0 +1,76 @@
+# 13226ms solution - Who needs optimisation anyway
+from pathlib import Path
+
+with open(Path(__file__).parent / 'input.txt', 'r') as file:
+    lines = [line.strip() for line in file][0]
+
+# Part One
+key, i = True, 0
+p1 = []
+for v in list(lines):
+    if key:
+        key = False
+        p1.extend(([i]*int(v)))
+        i += 1
+    else: 
+        p1.extend("." * int(v))
+        key = True
+
+i, rhs= 0, len(p1) - 1
+while i <= rhs :
+    i += 1
+    if p1[i] == '.':
+        while isinstance(p1[rhs], int) == False:
+            rhs += - 1
+        if rhs < i: continue
+        p1[i], p1[rhs] = p1[rhs], p1[i]
+        
+p1_score = 0
+for i, val in enumerate(p1):
+    if val == ".": break
+    p1_score += i * int(val)
+
+# Part Two
+
+key, i = True, 0
+p2 = []
+for v in list(lines):
+    if key:
+        key = False
+        p2.append(([i]*int(v)))
+        i += 1
+    else: 
+        p2.append("." * int(v))
+        key = True
+
+i = len(p2) - 1
+while i > 0 :
+    
+    if isinstance(p2[i], str): 
+        i += -1; continue
+    else:
+        l = len(p2[i])
+        lhs = 0
+        while len(p2[lhs]) < l or isinstance(p2[lhs], list):
+            lhs += 1
+            if lhs >= i: break
+        if lhs > i: continue
+        
+        p2[i], p2[lhs] = p2[lhs], p2[i]
+        l_diff = len(p2[i]) - len(p2[lhs])
+        if l_diff > 0:
+            p2[i] = p2[i][l_diff:]
+            p2.insert(lhs + 1, "." * l_diff)
+    i += -1
+
+for i in range(len(p2)):
+    if isinstance(p2[i], str):
+        p2[i] = list(p2[i])
+p2 = [item for sublist in p2 for item in sublist]
+
+p2_score = 0
+for i, val in enumerate(p2):
+    if val == ".": continue
+    p2_score += i * int(val)
+
+print(p1_score); print(p2_score)
