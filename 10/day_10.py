@@ -1,4 +1,3 @@
-# %%
 from pathlib import Path
 from collections import deque
 
@@ -13,10 +12,7 @@ for i, line in enumerate(lines):
         grid[(i,j)] = int(val)
         if val == '0': start.append((i,j))
 
-from collections import deque
-
 queue = deque()
-
 p1 =  0
 
 for s in start:
@@ -37,20 +33,6 @@ for s in start:
 print(p1)
 
 # Part Two
-
-# %%
-
-lines = [
-    '89010123',
-'78121874',
-'87430965',
-'96549874',
-'45678903',
-'32019012',
-'01329801',
-'10456732',
-]
-
 p2 = 0
 for s in start:
     queue = deque()
