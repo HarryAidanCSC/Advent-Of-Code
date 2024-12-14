@@ -1,8 +1,7 @@
 from pathlib import Path
 from re import findall
 from math import prod
-import matplotlib.pyplot as plt
-import os
+from statistics import stdev
 
 with open(Path(__file__).parent / 'input.txt', 'r') as file:
     lines = [line.strip().split(" ") for line in file]
@@ -22,7 +21,7 @@ for line in lines:
 coords = [line[0] for line in lines]
 velo = [line[1] for line in lines]
 sec = 1
-start = coords
+variance = []
 
 for _ in range(10000):
     coord_store = []
@@ -34,14 +33,8 @@ for _ in range(10000):
     coords = coord_store
     x = [c[0] for c in coords]
     y = [c[1] for c in coords]
-    plt.figure(figsize=(5,5))
-    plt.scatter(x, y, c='blue')
-    plot_filename = os.path.join(f"plots/plot_{sec:04d}.png")
-    plt.savefig(plot_filename, dpi=20)
-    plt.close() 
+    variance.append(stdev(x) + stdev(y))
     sec += 1 
-
-# I'm guessing it wont take over 10k iterations to find the plot # %%
-smallest_file = min([f for f in os.listdir("plots") if f.endswith('.png')], key=lambda f: os.path.getsize(os.path.join("plots", f)))
+    
 print(prod(quadrants.values()))
-print(findall(r'\d+', smallest_file)[0])
+print(variance.index(min(variance)) + 1) 
