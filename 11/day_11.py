@@ -32,7 +32,6 @@ print(len(line))
 with open(Path(__file__).parent / 'input.txt', 'r') as file:
     line = [line.strip().split(" ") for line in file][0]
 line = {int(char): 1 for char in line}
-print(line)
 
 for _ in range(75):
     new_line = {}
@@ -60,7 +59,6 @@ for _ in range(75):
                 new_line[nv] = appear
     
     line = new_line
-    print(len(line), len(new_line))
 
 p2 = sum(line.values())
 print(p2)
