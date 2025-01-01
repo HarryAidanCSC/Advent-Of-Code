@@ -1,7 +1,7 @@
 # %%
 from pathlib import Path
 from collections import defaultdict
-from functools import cache
+from functools import lru_cache
 
 with open(Path(__file__).parent.parent / '19/input.txt', 'r') as file:
     towels, _, *patterns = file.read().strip().split('\n')
@@ -46,15 +46,25 @@ for p in patterns:
         
         visited.update(next_states)
         stack.extend(next_states)
-print(p1)
 
-# %%
-@cache 
-def part_two(pat: str):
-    print(pat)
-    part_two(pat)
+@lru_cache(None)
+def count_matches(p, idx):
+    if idx == len(p):
+        return 1
 
+    if idx > len(p):
+        return 0
 
+    count = 0
+    char = p[idx]
 
-part_two(patterns2[0])
+    for towel in towels_match[char]:
+        next_idx = idx + len(towel)
+        if p[idx:next_idx] == towel:
+            count += count_matches(p, next_idx)
 
+    return count
+
+p2 = sum(count_matches(p, 0) for p in patterns2)
+
+print(p1, p2)
