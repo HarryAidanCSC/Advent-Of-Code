@@ -2,6 +2,7 @@
 *.txt
 tempCodeRunnerFile.js
 tempCodeRunnerFile.py
+tempCodeRunnerFile.c
 *.png
 *.class
 .Rhistory

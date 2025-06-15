@@ -5,30 +5,39 @@
 int main(){
     FILE *file = fopen("input.txt", "r");
     char str[100];
-    int x = 0, y = 0;
-    int partOne = 0;
+    int y = 0;
     char value;
+    int slopeX[5] = {0,0,0,0,0};
+    int right[5] ={1, 3, 5, 7, 1};
+    int x;
+    int treeArr[5] = {0,0,0,0,0};
 
     //  Get file length
     fgets(str, sizeof(str), file);
     int n = strlen(str);
-    if (str[n-1] == '\n'){
-        n--;
-    }
+    if (str[n-1] == '\n'){n--;}
     rewind(file);
-
 
     // Loop through file
     while(fgets(str, 100, file)){
-        printf("%s", str);
-        value = str[x];
-        if (value == '#'){
-            partOne++;
+        for (int i=0; i < 5; i++){
+            if (i == 4 && y % 2 != 0){continue;} // Skip every odd row for the 0.5 slope
+            x = slopeX[i];
+            value = str[x];          ;
+            if (value == '#'){
+                treeArr[i]++;
+            }
+            slopeX[i] = (x + right[i]) % n;
         }
-        x = (x + 3) % n;
         y++;
     }
     fclose(file);
-    printf("\n\nPart One: %d", partOne);
+    int partOne = treeArr[1];
+    long long partTwo = treeArr[0];
+
+    for (int i = 1; i < 5; i ++){
+        partTwo *= treeArr[i];
+    }
+    printf("\nPart One: %d\nPart Two: %lld\n\n", partOne, partTwo);
     return 0;
 }
