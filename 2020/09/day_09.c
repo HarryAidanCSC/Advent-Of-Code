@@ -58,8 +58,6 @@ int main() {
         }
     }
 
-
-
     // Part Two
     // Variable length sliding window
     int left = 0;
@@ -81,7 +79,6 @@ int main() {
                 if (lines[x] > maxVal) maxVal = lines[x];
                 partTwo = maxVal + minVal;
             }
-            printf("I poo %d %d", left, right);
         } 
         
     }
