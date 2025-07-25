@@ -36,7 +36,6 @@ public class day_19 {
         Map<String, ArrayList<ArrayList<String>>> map = new HashMap<>();
         HashSet<String> values = new HashSet<>();
 
-        // populate the dimension with the starting state
         while ((line = reader.readLine()) != null) {
             if (line.contains(":")) {
                 String key = line.substring(0, line.indexOf(":"));
@@ -56,7 +55,7 @@ public class day_19 {
         }
         reader.close();
 
-        // PART 2 MODIFICATION: update rules 8 and 11
+        // update rules 8 and 11
         if (map.containsKey("8")) {
             ArrayList<ArrayList<String>> rule8 = new ArrayList<>();
             rule8.add(new ArrayList<>(List.of("42")));
