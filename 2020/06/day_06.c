@@ -50,7 +50,7 @@ int main(){
     partOne += groupScorePartOne;
     partTwo += groupScorePartTwo;
 
-    printf("\nPart One: %d", partOne);
+    printf("Part One: %d", partOne);
     printf("\nPart Two: %d", partTwo);
     return 0;
 }

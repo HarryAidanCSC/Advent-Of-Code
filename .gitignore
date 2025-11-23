@@ -3,7 +3,13 @@
 tempCodeRunnerFile.js
 tempCodeRunnerFile.py
 tempCodeRunnerFile.c
+tempCodeRunnerFile.rs
 *.png
 *.class
 .Rhistory
 *.exe
+*.pdb
+
+# Added by cargo
+
+/target
