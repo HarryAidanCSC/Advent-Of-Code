@@ -1,5 +1,5 @@
 [workspace]
 
-members = ["2021/03/rust", "2021/04/rust202104"]
+members = ["2021/03/rust", "2021/04/rust202104", "2021/05/rust202105"]
 
 resolver = "2"
