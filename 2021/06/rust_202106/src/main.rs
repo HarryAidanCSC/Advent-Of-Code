@@ -12,11 +12,14 @@ fn main() {
     }
 
     // Simulation
-    for _ in 0..80{
+    for i in 0..256{
         let zero_lifers = timers.remove(0);
         timers[6] += zero_lifers;
         timers.push(zero_lifers);
+        if i == 79 {
+            println!("Part One: {:?}", timers.iter().sum::<i64>());
+        }
     }
-    
-    println!("Part One: {:?}", timers.iter().sum::<i64>());
+
+    println!("Part To: {:?}", timers.iter().sum::<i64>());
 }
