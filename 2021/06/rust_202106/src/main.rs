@@ -1,4 +1,4 @@
-use std::{fs, sync::Mutex};
+use std::fs;
 
 fn main() {
     let file = fs::read_to_string("../../input.txt").unwrap();
@@ -21,5 +21,5 @@ fn main() {
         }
     }
 
-    println!("Part To: {:?}", timers.iter().sum::<i64>());
+    println!("Part Two: {:?}", timers.iter().sum::<i64>());
 }
