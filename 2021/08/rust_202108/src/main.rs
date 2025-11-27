@@ -146,9 +146,6 @@ fn main() {
                 break;
             }
         }
-        println!("{:?}", known);
-        println!("{:?}", unknown);
-        println!("{:?}", answers);
 
         let mut cur_score = 0;
         let mut f = 1000;
@@ -162,5 +159,5 @@ fn main() {
         // break;
     }
     println!("Part One {}", p1);
-    println!("Part One {}", p2);
+    println!("Part Two {}", p2);
 }
