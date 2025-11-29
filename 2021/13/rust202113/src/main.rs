@@ -31,13 +31,30 @@ fn main() {
                 }
             }
             coords = new_coords.clone();
+            let len = new_coords.len();
             if p1 == 0 {
-                p1 = new_coords.len() as i32;
+                p1 = len;
             }
         } else {
             let (x, y) = line.split_once(",").unwrap();
             coords.insert((x.parse::<i32>().unwrap(), y.parse::<i32>().unwrap()));
         }
     }
+
+    // P2
     println!("Part One: {}", p1);
+    // println!("Part Two: {}", p2);
+    let mut row = vec![' '; 40];
+    let mut rows = vec![row.clone(); 7];
+
+    for (x, y) in coords {
+        let x = x as usize;
+        let y = y as usize;
+        rows[y][x] = '|';
+    }
+
+    for row in rows {
+        let s: String = row.into_iter().collect();
+        println!("{:?}", s);
+    }
 }
