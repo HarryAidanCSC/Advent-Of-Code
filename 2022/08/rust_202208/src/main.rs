@@ -35,6 +35,7 @@ fn main() {
         .collect();
 
     let n = lines[0].len();
+    let m = lines.len();
     let mut tines = vec![vec![]; n];
 
     let mut visible = HashSet::new();
@@ -60,5 +61,41 @@ fn main() {
         }
     }
 
+    // P2
+    let mut p2 = 0;
+    const DELTAS: [(i32, i32); 4] = [(0, 1), (1, 0), (0, -1), (-1, 0)];
+    for (i, line) in lines.iter().enumerate() {
+        for (j, value) in line.iter().enumerate() {
+            let mut ncur = 1;
+
+            for (di, dj) in DELTAS {
+                let (mut cur, mut r, mut c) = (0, i, j);
+
+                loop {
+                    let Some(nr) = r.checked_add_signed(di as isize) else {
+                        break;
+                    };
+                    let Some(nc) = c.checked_add_signed(dj as isize) else {
+                        break;
+                    };
+                    if nr >= m || nc >= n {
+                        break;
+                    }
+                    r = nr;
+                    c = nc;
+                    if lines[r][c] < *value {
+                        cur += 1;
+                    } else {
+                        cur += 1;
+                        break;
+                    }
+                }
+                ncur *= cur;
+            }
+            p2 = p2.max(ncur);
+        }
+    }
+
     println!("Part One: {}", visible.len());
+    println!("Part Two: {}", p2);
 }
