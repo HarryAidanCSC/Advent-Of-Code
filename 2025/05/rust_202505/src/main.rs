@@ -38,5 +38,19 @@ fn main() {
             p1 += 1;
         }
     }
+
+    // P2
+    ranges.sort();
+    let mut cend = -1;
+    let mut p2 = 0;
+    for (start, end) in ranges {
+        let es = start.max(cend + 1);
+        if end >= es {
+            p2 += end - es + 1;
+            cend = end.max(cend);
+        }
+    }
+
     println!("Part One: {}", p1);
+    println!("Part Two: {}", p2);
 }
