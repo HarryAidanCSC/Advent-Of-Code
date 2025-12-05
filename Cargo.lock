@@ -35,6 +35,10 @@ name = "rust202113"
 version = "0.1.0"
 
 [[package]]
+name = "rust_202006"
+version = "0.1.0"
+
+[[package]]
 name = "rust_202106"
 version = "0.1.0"
 
