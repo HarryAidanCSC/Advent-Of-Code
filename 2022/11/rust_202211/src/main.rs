@@ -61,6 +61,7 @@ fn main() {
 
     // Test
     let mut tests: Vec<Box<dyn Fn(i64) -> usize>> = vec![];
+    let mut LCM = 1;
     for i in (3..lines.len()).step_by(7) {
         // Div value
         let div_val = lines[i]
@@ -69,7 +70,7 @@ fn main() {
             .unwrap()
             .parse::<i64>()
             .unwrap();
-
+        LCM *= div_val;
         // True
         let true_cond = lines[i + 1]
             .split_whitespace()
@@ -95,12 +96,13 @@ fn main() {
         tests.push(fun);
     }
 
+    let mut itemz = items.clone();
     // Do this thing
-    let mut inspections = vec![0; tests.len()];
+    let mut inspections0 = vec![0; tests.len()];
     for _ in 0..20 {
         for i in 0..items.len() {
             let current_items: Vec<i64> = items[i].drain(..).collect();
-            inspections[i] += current_items.len() as i64;
+            inspections0[i] += current_items.len() as i64;
             for worry in current_items {
                 let new_worry = operations[i](worry) / 3;
                 items[tests[i](new_worry)].push(new_worry);
@@ -108,7 +110,30 @@ fn main() {
         }
     }
 
-    inspections.sort();
-    let p1: i64 = inspections.iter().rev().take(2).product();
+    inspections0.sort();
+    let p1: i64 = inspections0.iter().rev().take(2).product();
+
+    // P2
+    let mut inspections1 = vec![0; tests.len()];
+    for round in 1..=10000 {
+        for i in 0..itemz.len() {
+            let current_items: Vec<i64> = itemz[i].drain(..).collect();
+            let cil = current_items.len() as i64;
+            inspections1[i] += cil;
+            for worry in current_items {
+                let mut new_worry = operations[i](worry);
+
+                new_worry = new_worry % LCM;
+
+                itemz[tests[i](new_worry)].push(new_worry);
+            }
+        }
+    }
+
+    inspections1.sort();
+    let p2: i64 = inspections1.iter().rev().take(2).product();
+
+    // Output
     println!("Part One: {}", p1);
+    println!("Part Two: {}", p2);
 }
