@@ -1,4 +1,5 @@
-use std::collections::{HashSet, VecDeque};
+use std::cmp::Reverse;
+use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::fs::read_to_string;
 
 fn main() {
@@ -8,16 +9,17 @@ fn main() {
     let maxx = lines[0].len() - 1;
     // Starting Position
     let start: (usize, usize) = (
+        0,
         lines[0]
             .iter()
             .enumerate()
             .filter_map(|(i, x)| if x == &'S' { Some(i) } else { None })
             .nth(0)
             .unwrap(),
-        0,
     );
 
-    let mut queue = VecDeque::from([start]);
+    let mut heap = BinaryHeap::new();
+    heap.push(Reverse(start));
 
     // Splitter locations
     let splitters: HashSet<(usize, usize)> = lines
@@ -27,34 +29,44 @@ fn main() {
             y.iter()
                 .enumerate()
                 .filter_map(|(i, x)| if x == &'^' { Some(i) } else { None })
-                .map(move |coord| (coord, j))
+                .map(move |coord| (j, coord))
         })
         .collect();
 
     let mut p1 = HashSet::new();
-    let mut seen = HashSet::new();
-    while let Some((x, mut y)) = queue.pop_back() {
+    let mut p2 = 0;
+    let mut visited: HashMap<(usize, usize), i64> = HashMap::new();
+    visited.insert(start, 1);
+    while let Some(Reverse((mut y, x))) = heap.pop() {
         // Increase y until next splitter found
+        let cur_n = *visited.get(&(y, x)).unwrap();
         y += 1;
-        if seen.contains(&(x, y)) {
-            continue;
-        }
-        seen.insert((x, y));
-        while y <= maxy {
-            if splitters.contains(&(x, y)) {
-                p1.insert((x, y));
+
+        while y < maxy {
+            if splitters.contains(&(y, x)) {
+                p1.insert((y, x));
                 if x > 0 {
-                    queue.push_front((x - 1, y));
+                    if !visited.contains_key(&(y, x - 1)) {
+                        heap.push(Reverse((y, x - 1)));
+                    }
+                    *visited.entry((y, x - 1)).or_insert(0) += cur_n;
                 }
                 if x < maxx {
-                    queue.push_front((x + 1, y));
+                    if !visited.contains_key(&(y, x + 1)) {
+                        heap.push(Reverse((y, x + 1)));
+                    }
+                    *visited.entry((y, x + 1)).or_insert(0) += cur_n;
                 }
+
                 break;
             } else {
                 y += 1;
             }
         }
+        if y == maxy {
+            p2 += cur_n;
+        }
     }
-
     println!("Part One: {}", p1.len());
+    println!("Part Two: {}", p2);
 }
