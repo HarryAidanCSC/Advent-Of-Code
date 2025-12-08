@@ -35,8 +35,9 @@ fn main() {
         in_network.insert(i, i);
         networks.push(Vec::from([i]));
     }
+    let n = lines.len();
 
-    for _ in 0..1000 {
+    for pairs in 0..10000 {
         let Some(Reverse((_d, i, j))) = distances.pop() else {
             panic!("");
         };
@@ -49,10 +50,23 @@ fn main() {
             in_network.insert(*n, network0);
         }
         networks[network0].extend(nodes);
+
+        // P2
+        if networks[network0].len() == n {
+            let p2: i64 = lines[i][0] * lines[j][0];
+
+            println!("Part Two: {}", p2);
+            break;
+        }
+
+        // P1
+        if pairs == 999 {
+            let mut heap: BinaryHeap<_> = networks.iter().map(|v: &Vec<usize>| v.len()).collect();
+            let p1: usize = (0..3).filter_map(|_| heap.pop()).product();
+            println!("Part One: {}", p1);
+        }
     }
 
+    // println!("{:?}", networks);
     // P1
-    let mut heap: BinaryHeap<_> = networks.iter().map(|v: &Vec<usize>| v.len()).collect();
-    let p1: usize = (0..3).filter_map(|_| heap.pop()).product();
-    println!("Part One: {}", p1);
 }
