@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::fs::read_to_string;
 fn main() {
     let file = read_to_string("../../input.txt").unwrap();
@@ -33,6 +33,7 @@ fn main() {
     }
 
     // Kick off
+    let mut occupada = occupado.clone();
     let mut p1 = 0;
     loop {
         p1 += 1;
@@ -55,5 +56,34 @@ fn main() {
             break;
         }
     }
+
+    // P2
+    let abs_max = maxy + 2;
+    let mut i = 0;
+    let mut p2 = 0;
+    loop {
+        i += 1;
+
+        let (mut x, mut y) = (500, 0);
+        // Drop the y
+        while y <= abs_max {
+            y += 1;
+            if y < abs_max && !occupada.contains(&(x, y)) {
+            } else if y < abs_max && !occupada.contains(&(x - 1, y)) {
+                x -= 1;
+            } else if y < abs_max && !occupada.contains(&(x + 1, y)) {
+                x += 1;
+            } else {
+                occupada.insert((x, y - 1));
+                y -= 1;
+                break;
+            }
+        }
+        if y == 0 {
+            p2 = i;
+            break;
+        }
+    }
     println!("Part One: {}", p1 - 1);
+    println!("Part Two: {}", p2);
 }
