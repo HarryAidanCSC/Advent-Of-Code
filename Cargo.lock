@@ -149,6 +149,10 @@ name = "rust_202508"
 version = "0.1.0"
 
 [[package]]
+name = "rust_202509"
+version = "0.1.0"
+
+[[package]]
 name = "ryu"
 version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
