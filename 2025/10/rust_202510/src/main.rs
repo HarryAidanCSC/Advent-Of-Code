@@ -1,6 +1,7 @@
-use std::collections::VecDeque;
+use std::collections::{HashSet, VecDeque};
 use std::fs::read_to_string;
 use std::iter::zip;
+
 fn main() {
     let file = read_to_string("../../input.txt").unwrap();
     let lines: Vec<&str> = file.lines().collect();
@@ -18,8 +19,6 @@ fn main() {
                 .collect()
         })
         .collect();
-
-    //
     let mut options = vec![];
     for line in lines {
         let mut line_vec = vec![];
@@ -39,7 +38,7 @@ fn main() {
     for (config, option) in zip(configs, options.clone()) {
         let start = vec![0; config.len()];
         let mut queue = VecDeque::from([(start, 0)]);
-
+        let mut seen = HashSet::new();
         // BFS
         'beef: while let Some((conf, score)) = queue.pop_front() {
             // Neigbours
@@ -52,7 +51,8 @@ fn main() {
                 if new_conf == config {
                     p1 += score + 1;
                     break 'beef;
-                } else {
+                }
+                if seen.insert(new_conf.clone()) {
                     queue.push_back((new_conf, score + 1));
                 }
             }
